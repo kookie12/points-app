@@ -11,6 +11,13 @@ function Login() {
 	const [passwordError, setpasswordError] = useState('');
 	const [loginError, setloginError] = useState('');
 	const [login_flag, setlogin_flag] = useState(false);
+	const [pass, setpass] = useState(false);
+	
+	const [name, set_name] = useState(''); // 데이터를 보내기 위해서
+	const [password, set_password] = useState('');
+	const [_class, set_class ] = useState('');
+	const [group, set_group] = useState('');
+	const [recents, set_recents] = useState({});
 	// var login_flag = false;
 	
 	const clearInputs = () => {
@@ -31,6 +38,7 @@ function Login() {
 		const db = fire.firestore();
 		const name = document.querySelector('#name').value;
 		const password = document.querySelector('#password').value;
+		var container = [];
 		
 		if (name === "" && password === "") {
 			setnameError("이름을 입력해 주세요!");
@@ -50,6 +58,29 @@ function Login() {
 						console.log("로그인 되었습니다!");
 						setloginError("로그인 되었습니다!");
 						setlogin_flag(true);
+						setpass(true);
+						set_name(name);
+						set_password(password);
+						set_class(doc.data().class);
+						set_group(doc.data().group);
+						
+						doc_user.collection('recents').doc('contents').get().then(				
+							(snapshot) => {
+								console.log(snapshot.data())
+								console.log("type : ", typeof snapshot.data())
+								set_recents(snapshot.data());
+								container.push(snapshot.data())
+								
+								// 여기서 snapshot.data().info()로 하자!
+								
+								// snapshot.forEach((item) => {
+								// 	console.log(item.data())
+								// 	container.push(item.data())
+								// })
+							}
+						);
+						console.log('recents : ', recents);
+						set_recents(container);
 						//login_flag = true;
 						console.log(loginError);
 					} else {
@@ -94,8 +125,18 @@ function Login() {
 				<div className="footer">
 					<div className="blank">
 						{ (login_flag===true) ? (
-							<Link to="/Soldier">
-								<button className="btn-submit-form">Start</button>
+							<Link to={{
+									pathname: "/Soldier",
+									state: {
+										pass,
+										name,
+										password,
+										_class,
+										group,
+										recents
+									}
+								}}>
+								<button className="start-button">Start</button>
 							</Link>
 						) : (
 							<button className="btn-submit-form" onClick={handleLogin}>Login</button>
@@ -103,9 +144,14 @@ function Login() {
 					
 					</div>
 					<div className="blank">
-						<Link to="/Signup">
-							<button className="btn-submit-form">Sign Up</button>
-						</Link>
+						{ (login_flag===true) ? (
+							<> 
+							</>
+						) : (
+							<Link to="/Signup">
+								<button className="btn-submit-form">Sign Up</button>
+							</Link>
+						)}
 					</div>
 				</div>
 			    <p className="errorMsg">{loginError}</p>

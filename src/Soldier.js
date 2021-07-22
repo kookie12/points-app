@@ -3,23 +3,31 @@ import React from 'react';
 class Soldier extends React.Component {
 	
 	componentDidMount(){
-		console.log(this.props);
+		console.log("check1 : ", this.props);
+		console.log("check2 : ", this.props.location);
 		const { location, history } = this.props;
 		if(location.state === undefined){   
-    		history.push("/");
+			history.push("/");
 		}
 	}
 	
 	render() {
 		const { location } = this.props; //클릭해서 들어간게 아니라 주소창으로 입력해서 들어가면 location.state가 false라서, 
-		if (location.state) { //false라면 render() 이후 componentDidMount()가 실행되면서 "/"화면으로 이동함
-			return <span>{location.state.title}</span>;
-		} else{
+		if (!location.state){
 			return null;
 		}
-		
+				
 		return(
-		<h1>Hello, this is Home!!</h1>
+			<div>
+				<h1>Hello, this is Home!!</h1>
+				<h2>{location.state.name}</h2>
+				<h2>{location.state.password}</h2>	
+				<h2>{location.state._class}</h2>	
+				<h2>{location.state.group}</h2>	
+				<h2>{location.state.recents}</h2>	
+				
+				
+			</div>
 	
 		);
 	

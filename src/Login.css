@@ -103,8 +103,28 @@
 .login .loginContainer .footer .blank {
   display: flex;
   margin-top: 5px;
-  margin-left: 20px;
-  margin-right: 20px;
+  /* margin-left: 20px; */
+  /* margin-right: 20px; */
+}
+
+.login .loginContainer .start-button {
+  border: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  padding: 15px 20px;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 1rem;
+  font-family: Nunito, sans-serif;
+  background: #6381e8;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.13);
+  transition: all 0.2s ease;
+  margin-bottom: 25px;  
+  width: 100px;
+  margin-left: 50px;
+  /* margin: auto; */
 }
 
 .login .loginContainer .btn-submit-form {
