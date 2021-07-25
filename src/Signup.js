@@ -85,6 +85,7 @@ function Signup() {
 						class: _class,
 						group: group,
 						points: 0,
+						n_points:0,
 						recents: ""
 					}).then(()=>{
 						console.log("Document successfully written!");

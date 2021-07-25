@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200&display=swap');
+
+.AppShell .bar p {
+  /*font-family: Nunito, Arial, sans-serif; */
+  font-family: 'Nanum Pen Script', cursive; 
+  font-size: 1.8rem;
+  text-align: center;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.notice p {
+  font-family: 'Nanum Pen Script', cursive;
+  font-size: 1.8rem;
+  text-align: center;
+  align-items: center;
+  margin-left: 0px;
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import "./Login.css";
 import { Link } from "react-router-dom";
 import fire from './config/fire';
@@ -17,6 +17,8 @@ function Login() {
 	const [password, set_password] = useState('');
 	const [_class, set_class ] = useState('');
 	const [group, set_group] = useState('');
+	const [points, set_points] = useState('');
+	const [n_points, set_n_points] = useState('');
 	const [recents, set_recents] = useState({});
 	// var login_flag = false;
 	
@@ -63,11 +65,13 @@ function Login() {
 						set_password(password);
 						set_class(doc.data().class);
 						set_group(doc.data().group);
+						set_points(doc.data().points);
+						set_n_points(doc.data().n_points);
 						
 						doc_user.collection('recents').doc('contents').get().then(				
 							(snapshot) => {
-								console.log(snapshot.data())
-								console.log("type : ", typeof snapshot.data())
+								//console.log(snapshot.data())
+								//console.log("type : ", typeof snapshot.data())
 								set_recents(snapshot.data());
 								container.push(snapshot.data())
 								
@@ -133,6 +137,8 @@ function Login() {
 										password,
 										_class,
 										group,
+										points,
+										n_points,
 										recents
 									}
 								}}>
@@ -143,6 +149,7 @@ function Login() {
 						)}
 					
 					</div>
+								
 					<div className="blank">
 						{ (login_flag===true) ? (
 							<> 
