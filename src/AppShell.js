@@ -104,6 +104,15 @@ class AppShell extends React.Component {
 								</div>
 								: null
 							}	
+							
+							<MenuItem onClick={this.handleDrawerToggle}>
+								<Link component={RouterLink} to="/">
+									<div className="notice">
+										<p>로그아웃</p>
+									</div>	
+								</Link>
+							</MenuItem>
+							
 						</Drawer>
 					</div>
 					

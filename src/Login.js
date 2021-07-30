@@ -19,7 +19,7 @@ function Login() {
 	const [group, set_group] = useState('');
 	const [points, set_points] = useState('');
 	const [n_points, set_n_points] = useState('');
-	const [recents, set_recents] = useState({});
+	const [recents, set_recents] = useState({not_in_here : 1, mistake : 2});
 	// var login_flag = false;
 	
 	const clearInputs = () => {
@@ -72,21 +72,27 @@ function Login() {
 							(snapshot) => {
 								//console.log(snapshot.data())
 								//console.log("type : ", typeof snapshot.data())
+								console.log('snapshot.data() : ', snapshot.data());
 								set_recents(snapshot.data());
 								container.push(snapshot.data())
-								
 								// 여기서 snapshot.data().info()로 하자!
 								
 								// snapshot.forEach((item) => {
 								// 	console.log(item.data())
 								// 	container.push(item.data())
 								// })
+								console.log('container', container);
+								console.log('recents 2: ', recents);
+								//set_recents(container);
 							}
 						);
-						console.log('recents : ', recents);
-						set_recents(container);
+						
+						//console.log('container : ', container);
+						//set_recents(container);
+						//console.log('recents 2: ', recents);
 						//login_flag = true;
 						console.log(loginError);
+						
 					} else {
 						console.log("비밀번호가 맞지 않습니다!");
 						setloginError("비밀번호가 맞지 않습니다!");

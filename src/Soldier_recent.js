@@ -16,13 +16,13 @@ class Soldier_recent extends React.Component {
 	}
 	
 	render(){
-		const {recent_render} = this.props;
+		const {recent_log} = this.props;
 		const number = this.state.number;
-		console.log("-------log -------- : ", recent_render);
-		console.log(recent_render.length);
+		console.log("-------log -------- : ", recent_log);
+		// console.log(recent_log.length);
 		console.log(number);
 		return(
-			recent_render.map((id, index) => {
+			recent_log.map((id, index) => {
 				return(
 					<div className="Soldier_recent">
 						<p>{id}</p>
