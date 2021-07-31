@@ -68,24 +68,25 @@ function Login() {
 						set_points(doc.data().points);
 						set_n_points(doc.data().n_points);
 						
-						doc_user.collection('recents').doc('contents').get().then(				
-							(snapshot) => {
+						set_recents(doc.data().recents);
+						//doc_user.collection('recents').doc('contents').get().then(				
+						//	(snapshot) => {
 								//console.log(snapshot.data())
 								//console.log("type : ", typeof snapshot.data())
-								console.log('snapshot.data() : ', snapshot.data());
-								set_recents(snapshot.data());
-								container.push(snapshot.data())
+						//		console.log('snapshot.data() : ', snapshot.data());
+						//		set_recents(snapshot.data());
+						//		container.push(snapshot.data())
 								// 여기서 snapshot.data().info()로 하자!
 								
 								// snapshot.forEach((item) => {
 								// 	console.log(item.data())
 								// 	container.push(item.data())
 								// })
-								console.log('container', container);
-								console.log('recents 2: ', recents);
+						//		console.log('container', container);
+						//		console.log('recents 2: ', recents);
 								//set_recents(container);
-							}
-						);
+						//	}
+						//);
 						
 						//console.log('container : ', container);
 						//set_recents(container);

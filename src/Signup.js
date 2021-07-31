@@ -86,7 +86,7 @@ function Signup() {
 						group: group,
 						points: 0,
 						n_points:0,
-						recents: ""
+						recents: []
 					}).then(()=>{
 						console.log("Document successfully written!");
 						setsignupError("성공적으로 회원가입 되었습니다!")

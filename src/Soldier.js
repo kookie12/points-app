@@ -10,15 +10,15 @@ import Button from '@material-ui/core/Button';
 import image from './user.JPG';
 
 function Soldier (props) {
-	
-	let storage_flag = 0 
-	console.log("여기1!!!!!! : ", window.localStorage.getItem("__class"))
-	if(props.location.state === undefined) {
+
+	console.log("여기1!!!!!! : ", window.localStorage.getItem("__class"));
+	console.log("여기2!!!!!! : ", window.localStorage.getItem("storage_flag"));
+	console.log("여기3!!!!!! : ", window.localStorage.getItem("__recents"));
+	if(props.location.state === undefined && JSON.parse(window.localStorage.getItem("storage_flag")) !== true) {
+		props.history.push("/");
+		
 		if (JSON.parse(window.localStorage.getItem("__class")) === ""){
 			props.history.push("/");
-		}
-		else { //만약 localstorage에 값이 저장되었다면!!
-			storage_flag = 1;
 		}
 	}
 	
@@ -29,52 +29,76 @@ function Soldier (props) {
 	const [__points, set__points] = useState(() => JSON.parse(window.localStorage.getItem("__points")) || '');
 	const [__npoints, set__npoints] = useState(() => JSON.parse(window.localStorage.getItem("__npoints")) || '');
 	const [__recent_log, set__recent_log] = useState(() => JSON.parse(window.localStorage.getItem("__recent_log")) || ['test1', 'test2']);
-	const [__recents, set__recents] = useState(() => JSON.parse(window.localStorage.getItem("__recents")) || '');
-	// const { location } = props;
+	const [__recents, set__recents] = useState(() => JSON.parse(window.localStorage.getItem("__recents")) || []);	// const { location } = props;
+	const [storage_flag, set__storage_flag] = useState(() => JSON.parse(window.localStorage.getItem("storage_flag")) || false);
 	
-	if (storage_flag !== 1){
-		const {_class, group, name, points, n_points, recents} = props.location.state;	
+	if (storage_flag === false){
+		//const {_class, group, name, points, n_points, recents} = props.location.state;	
+		//console.log("_class : ", _class)
 	} else {
 		// 여기 작성하기!!
 	}
 	
 	console.log("props : ", props);
 	console.log("props.location.state : ", props.location.state);
-	
+	window.localStorage.setItem('test', "test");
 	
 	const setup = () => {
 		{console.log("setup 합니당 ~~ ");}
-		set__class(_class);
-		set__group(group);
-		set__name(name);
-		set__points(points);
-		set__npoints(n_points);
-		set__recents(recents);
-		window.localStorage.setItem('__class', JSON.stringify(__class))
-		window.localStorage.setItem('__group', JSON.stringify(__group))
-		window.localStorage.setItem('__name', JSON.stringify(__name))
-		window.localStorage.setItem('__points', JSON.stringify(__points))
-		window.localStorage.setItem('__npoints', JSON.stringify(__npoints))
-		window.localStorage.setItem('__recent_log', JSON.stringify(__recent_log))
-		window.localStorage.setItem('__recents', JSON.stringify(__recents))
+		{console.log("storage_flag  ", storage_flag );}
+		{console.log("info 1 : ", __class, __group, __name, __points, __recents, storage_flag );}
+		console.log("여기 ~~~~ ", typeof(__recents));
+		if (storage_flag === false) {
+			console.log("setup check ~~ ");
+			const {_class, group, name, points, n_points, recents} = props.location.state;	
+			set__class(_class);
+			set__group(group);
+			set__name(name);
+			set__points(points);
+			set__npoints(n_points);
+			set__recents(recents);
+			console.log("info 2 : ", __class, __group, __name, __points, __recents, storage_flag );
+			console.log("여기 ~~~~ ", recents);
+			console.log("여기 ~~~~ ", typeof(recents));
+			window.localStorage.setItem('__class', JSON.stringify(__class));
+			window.localStorage.setItem('__group', JSON.stringify(__group));
+			window.localStorage.setItem('__name', JSON.stringify(__name));
+			window.localStorage.setItem('__points', JSON.stringify(__points));
+			window.localStorage.setItem('__npoints', JSON.stringify(__npoints));
+			window.localStorage.setItem('__recents', JSON.stringify(__recents));
+			set__storage_flag(true);
+			window.localStorage.setItem('storage_flag', JSON.stringify(storage_flag));	
+		}
+		
+		if (storage_flag === true) {
+			// set__class(window.localStorage.setItem('__class', JSON.stringify(__class)));
+			// set__group(window.localStorage.setItem('__group', JSON.stringify(__group)));
+			// set__name(window.localStorage.setItem('__name', JSON.stringify(__name)));
+			// set__points(window.localStorage.setItem('__points', JSON.stringify(__points)));
+			// set__npoints(window.localStorage.setItem('__npoints', JSON.stringify(__npoints)));
+			// set__recents(window.localStorage.setItem('__recents', JSON.stringify(__recents)));	
+			// set__storage_flag(true);	
+			// set__storage_flag(window.localStorage.setItem('storage_flag', JSON.stringify(storage_flag)));
+			console.log("sibal~~~~~~");
+		} 
 	};
 	
 	const look_recents = () => {
 		//const recent = this.props.location.state.recents;
-		const array = [];
-		console.log("recent : ", __recents); //this.state.recents 대신 recent
-		Object.keys(__recents).map((id) => {
-			const log = __recents[id];
-			console.log("id : ", id);
-			console.log(log);
-			array.push(log)
-		})
+		//const array = [];
+		//console.log("recent : ", __recents); //this.state.recents 대신 recent
+		//Object.keys(__recents).map((id) => {
+		//	const log = __recents[id];
+		//	console.log("id : ", id);
+		//	console.log(log);
+		//	array.push(log)
+		//})
 		
-		console.log("array : ", array);
+		//console.log("array : ", array);
 		
-		set__recent_log(array);
+		set__recent_log(__recents);
 		
-		console.log("__recent_log : ", __recent_log);
+		console.log("__recents : ", __recents);
 	};
 
 	const callback = () => {
@@ -87,7 +111,7 @@ function Soldier (props) {
 		console.log('component mounted');
 		callback();
 		return () => console.log('component unmounting');
-	}, [__recents]); //흠.. 신기하네..
+	}, [__class, __group, __name, __recents, __points, __npoints]); //흠.. 신기하네..
 	
 	
 	return (
@@ -128,8 +152,14 @@ function Soldier (props) {
 					<div className="emty"></div> 
 					<Card>
 						<CardContent>
+							{ parseInt(__class) === 0 ? 
+							<div className="name">최근 부여한 상벌점 내역</div> : 
 							<div className="name">최근 받은 상벌점 내역</div>
-							<Soldier_recent recent_log={__recent_log} />	
+							}
+							{__recents.map((current, index) => 
+								<div key={index}>{current}</div>
+							)}
+							
 						</CardContent>
 					</Card>
 				</div>
