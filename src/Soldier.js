@@ -10,27 +10,20 @@ import Button from '@material-ui/core/Button';
 import image from './user.JPG';
 
 function Soldier (props) {
-
-	console.log("여기1!!!!!! : ", window.localStorage.getItem("__class"));
-	console.log("여기2!!!!!! : ", window.localStorage.getItem("storage_flag"));
-	console.log("여기3!!!!!! : ", window.localStorage.getItem("__recents"));
-	if(props.location.state === undefined && JSON.parse(window.localStorage.getItem("storage_flag")) !== true) {
+	
+	if(props.location.state === undefined && JSON.parse(window.localStorage.getItem("storage_flag")) === null) {
+		console.log("왜 여기로 안옴????");
 		props.history.push("/");
-		
-		if (JSON.parse(window.localStorage.getItem("__class")) === ""){
-			props.history.push("/");
-		}
 	}
 	
-	//const {_class, group, name, points, n_points, recent_log, recents} = location.state;
 	const [__class, set__class] = useState(() => JSON.parse(window.localStorage.getItem("__class")) || '');
 	const [__group, set__group] = useState(() => JSON.parse(window.localStorage.getItem("__group")) || '');
 	const [__name, set__name] = useState(() => JSON.parse(window.localStorage.getItem("__name")) || '');
 	const [__points, set__points] = useState(() => JSON.parse(window.localStorage.getItem("__points")) || '');
 	const [__npoints, set__npoints] = useState(() => JSON.parse(window.localStorage.getItem("__npoints")) || '');
-	const [__recent_log, set__recent_log] = useState(() => JSON.parse(window.localStorage.getItem("__recent_log")) || ['test1', 'test2']);
-	const [__recents, set__recents] = useState(() => JSON.parse(window.localStorage.getItem("__recents")) || []);	// const { location } = props;
+	const [__recents, set__recents] = useState(() => JSON.parse(window.localStorage.getItem("__recents")) || []);
 	const [storage_flag, set__storage_flag] = useState(() => JSON.parse(window.localStorage.getItem("storage_flag")) || false);
+	const [__recent_log, set__recent_log] = useState([]);
 	
 	if (storage_flag === false){
 		//const {_class, group, name, points, n_points, recents} = props.location.state;	
@@ -39,79 +32,75 @@ function Soldier (props) {
 		// 여기 작성하기!!
 	}
 	
-	console.log("props : ", props);
 	console.log("props.location.state : ", props.location.state);
-	window.localStorage.setItem('test', "test");
 	
 	const setup = () => {
-		{console.log("setup 합니당 ~~ ");}
 		{console.log("storage_flag  ", storage_flag );}
 		{console.log("info 1 : ", __class, __group, __name, __points, __recents, storage_flag );}
-		console.log("여기 ~~~~ ", typeof(__recents));
 		if (storage_flag === false) {
 			console.log("setup check ~~ ");
 			const {_class, group, name, points, n_points, recents} = props.location.state;	
-			set__class(_class);
-			set__group(group);
-			set__name(name);
-			set__points(points);
-			set__npoints(n_points);
-			set__recents(recents);
-			console.log("info 2 : ", __class, __group, __name, __points, __recents, storage_flag );
-			console.log("여기 ~~~~ ", recents);
-			console.log("여기 ~~~~ ", typeof(recents));
-			window.localStorage.setItem('__class', JSON.stringify(__class));
+			set__class((__class) => _class);
+			set__group((__group) =>group);
+			set__name((__name) => name);
+			set__points((__points) => points);
+			set__npoints((__npoints) => n_points);
+			set__recents((__recents) => recents);
+			console.log("info 21: ", _class, group, name, points, recents);
+			console.log("info 2 : ", __class, __group, __name, __points, __recents, storage_flag ); //여기서 못받아오고 있음. 비동기
+			console.log("info 3 : ", typeof(__recents) );
+			
+			set__storage_flag((storage_flag) => true);
+			
+			var array = [];
+			Object.values({__recents}).map((current, index) => {
+				console.log("current : ", current);
+				current.map((item, index) => {
+					console.log("item : ", item);
+						array.push(item);
+				})	
+				set__recent_log((__recent_log) => array);
+			})
+			console.log("array -- : ", array);
+			console.log("__recent_log -- : ", __recent_log);
+			
+		}
+		
+		if (storage_flag === true) {
+			console.log("sibal~~~~~~");
+			window.localStorage.setItem('test', '올라가라');
+			window.localStorage.setItem('__class', JSON.stringify(__class)); //JSON.stringify(__class
 			window.localStorage.setItem('__group', JSON.stringify(__group));
 			window.localStorage.setItem('__name', JSON.stringify(__name));
 			window.localStorage.setItem('__points', JSON.stringify(__points));
 			window.localStorage.setItem('__npoints', JSON.stringify(__npoints));
 			window.localStorage.setItem('__recents', JSON.stringify(__recents));
-			set__storage_flag(true);
-			window.localStorage.setItem('storage_flag', JSON.stringify(storage_flag));	
-		}
-		
-		if (storage_flag === true) {
-			// set__class(window.localStorage.setItem('__class', JSON.stringify(__class)));
-			// set__group(window.localStorage.setItem('__group', JSON.stringify(__group)));
-			// set__name(window.localStorage.setItem('__name', JSON.stringify(__name)));
-			// set__points(window.localStorage.setItem('__points', JSON.stringify(__points)));
-			// set__npoints(window.localStorage.setItem('__npoints', JSON.stringify(__npoints)));
-			// set__recents(window.localStorage.setItem('__recents', JSON.stringify(__recents)));	
-			// set__storage_flag(true);	
-			// set__storage_flag(window.localStorage.setItem('storage_flag', JSON.stringify(storage_flag)));
-			console.log("sibal~~~~~~");
+			window.localStorage.setItem('storage_flag', JSON.stringify(storage_flag));
 		} 
 	};
 	
-	const look_recents = () => {
-		//const recent = this.props.location.state.recents;
-		//const array = [];
-		//console.log("recent : ", __recents); //this.state.recents 대신 recent
-		//Object.keys(__recents).map((id) => {
-		//	const log = __recents[id];
-		//	console.log("id : ", id);
-		//	console.log(log);
-		//	array.push(log)
-		//})
-		
-		//console.log("array : ", array);
-		
-		set__recent_log(__recents);
-		
-		console.log("__recents : ", __recents);
-	};
-
-	const callback = () => {
-		setup();
-		look_recents();		
+	const submit_localstorage = () => {
+		window.localStorage.setItem('test', '올라가라');
+		window.localStorage.setItem('__class', JSON.stringify(__class)); //JSON.stringify(__class
+		window.localStorage.setItem('__group', JSON.stringify(__group));
+		window.localStorage.setItem('__name', JSON.stringify(__name));
+		window.localStorage.setItem('__points', JSON.stringify(__points));
+		window.localStorage.setItem('__npoints', JSON.stringify(__npoints));
+		window.localStorage.setItem('__recents', JSON.stringify(__recents));
+		window.localStorage.setItem('storage_flag', JSON.stringify(storage_flag));
 	}
 	
 	useEffect(() => {
 		console.log("-----------함수 실행 --------------");
 		console.log('component mounted');
-		callback();
-		return () => console.log('component unmounting');
-	}, [__class, __group, __name, __recents, __points, __npoints]); //흠.. 신기하네..
+		const callAjax = () => { console.log(__class, __group, __name, __points, __recents, storage_flag); }; 
+		callAjax();
+		setup();
+		return () => {
+		  console.log("I'm dying...");
+		};
+	}, [__class, __group, __name, __points, __recents, storage_flag, __recent_log]); //흠.. 신기하네..
+	
 	
 	
 	return (
@@ -153,12 +142,18 @@ function Soldier (props) {
 					<Card>
 						<CardContent>
 							{ parseInt(__class) === 0 ? 
+								
 							<div className="name">최근 부여한 상벌점 내역</div> : 
 							<div className="name">최근 받은 상벌점 내역</div>
 							}
-							{__recents.map((current, index) => 
-								<div key={index}>{current}</div>
-							)}
+						
+							{ Object.values({__recents}).map((current, index) => 
+								( current.map((item, index) =>
+									<div className="recent_log"> {item} </div>
+								) 				
+							))}
+
+							
 							
 						</CardContent>
 					</Card>
@@ -174,6 +169,27 @@ function Soldier (props) {
 export default Soldier;
 //export default React.memo(Soldier);
 
+
+//const look_recents = () => {
+	// 	//const recent = this.props.location.state.recents;
+	// 	//const array = [];
+	// 	//console.log("recent : ", __recents); //this.state.recents 대신 recent
+	// 	//Object.keys(__recents).map((id) => {
+	// 	//	const log = __recents[id];
+	// 	//	console.log("id : ", id);
+	// 	//	console.log(log);
+	// 	//	array.push(log)
+	// 	//})
+	// 	// {__recents.map((current, index) => 
+	// 	// 	<div key={index}>{current}</div>
+	// 	// )}
+		
+	// 	//console.log("array : ", array);
+		
+	// 	set__recent_log(__recents);
+		
+	// 	console.log("__recents : ", __recents);
+	// };
 
 /*
 import React from 'react';

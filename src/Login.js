@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "./Login.css";
 import { Link } from "react-router-dom";
 import fire from './config/fire';
@@ -115,6 +115,11 @@ function Login() {
 		
 	};
 		
+	useEffect(() => {
+		console.log("---------localstorage 초기화 ------------");
+		window.localStorage.clear()
+	}, []); 
+	
 	return(
 	<div>
 		<div className="header">

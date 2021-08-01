@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
 
 * {
   box-sizing: border-box;
@@ -103,4 +104,13 @@
 .Soldier .Container .emty {
 	visibility: hidden;
 	height: 20px;
+}
+
+.Soldier .Container .recent_log {
+  color: black;
+  font-size: 13px;
+  margin-top: 0px;
+  margin-bottom: 10px;	
+  text-align: left;  /* 글씨 가운데 정렬 */
+  font-family: 'Gowun Dodum', sans-serif; 
 }

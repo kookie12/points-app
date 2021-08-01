@@ -27,6 +27,7 @@ function Give_points (props) {
 	const [__class, set__class] = useState(() => JSON.parse(window.localStorage.getItem("__class")) || '');
 	const [__group, set__group] = useState(() => JSON.parse(window.localStorage.getItem("__group")) || '');
 	const [__name, set__name] = useState(() => JSON.parse(window.localStorage.getItem("__name")) || '');
+	const [__reason, set__reason] = useState('');
 	
 	const classes = useStyles();
 	const [state, setState] = React.useState({
@@ -53,6 +54,8 @@ function Give_points (props) {
 	
 	const handleChange = (event) => {
 		setState({ ...state, [event.target.name]: event.target.checked });
+		console.log("document.getElementById(1-1).value:", document.getElementById("1-1").innerText);
+		//console.log( " [event.target.name]: event.target.checked : ", [event.target.name], event.target.checked);
 	};
 	
 	const { points_11, points_21, points_31, points_32, points_33, points_34, points_41, points_42, points_51, points_61, points_62, points_71, points_81, points_82, points_83, points_84, points_85} = state;
@@ -112,8 +115,98 @@ function Give_points (props) {
 		}
 		
 		if (flag1 === true && flag2 === true && flag3 === true && flag4 === true) {
-			const doc_user = db.collection("user").doc(s_name);
-		
+			//상점 사유 가져오는 부분
+			var reason_in = '';
+			if (state.points_11 === true) {
+				//console.log("안에 들어옴!!");
+				//set__reason(__reason => __reason + ' ' + document.getElementById("1-1").innerText)
+				console.log(__reason);
+				reason_in = reason_in + ' ' + document.getElementById("1-1").innerText
+			}
+			
+			if (state.points_21 === true) {
+				set__reason(__reason => __reason + ' ' + document.getElementById("2-1").innerText)
+				reason_in = reason_in + ' ' + document.getElementById("2-1").innerText
+			}
+			
+			if (state.points_31 === true) {
+				set__reason(__reason => __reason + ' ' + document.getElementById("3-1").value )
+				reason_in = reason_in + ' ' + document.getElementById("3-1").innerText
+			}
+			
+			if (state.points_32 === true) {
+				set__reason(__reason => __reason + ' ' + document.getElementById("3-2").value )
+				reason_in = reason_in + ' ' + document.getElementById("3-2").innerText
+			}
+			
+			if (state.points_33 === true) {
+				set__reason(__reason => __reason + ' ' + document.getElementById("3-3").value )
+				reason_in = reason_in + ' ' + document.getElementById("3-3").innerText
+			}
+			
+			if (state.points_34 === true) {
+				set__reason(__reason => __reason + ' ' + document.getElementById("3-4").value )
+				reason_in = reason_in + ' ' + document.getElementById("3-4").innerText
+			}
+			
+			if (state.points_41 === true) {
+				set__reason(__reason => __reason + ' ' + document.getElementById("4-1").value )
+				reason_in = reason_in + ' ' + document.getElementById("4-1").innerText
+			}
+			
+			if (state.points_42 === true) {
+				set__reason(__reason => __reason + ' ' + document.getElementById("4-2").value )
+				reason_in = reason_in + ' ' + document.getElementById("4-2").innerText
+			}
+			
+			if (state.points_51 === true) {
+				set__reason(__reason => __reason + ' ' + document.getElementById("5-1").value )
+				reason_in = reason_in + ' ' + document.getElementById("5-1").innerText
+			}
+			
+			if (state.points_61 === true) {
+				set__reason(__reason => __reason + ' ' + document.getElementById("6-1").value )
+				reason_in = reason_in + ' ' + document.getElementById("6-1").innerText
+			}
+			
+			if (state.points_62 === true) {
+				set__reason(__reason => __reason + ' ' + document.getElementById("6-2").value )
+				reason_in = reason_in + ' ' + document.getElementById("6-2").innerText
+			}
+			
+			if (state.points_71 === true) {
+				set__reason(__reason => __reason + ' ' + document.getElementById("7-1").value )
+				reason_in = reason_in + ' ' + document.getElementById("7-1").innerText
+			}
+			
+			if (state.points_81 === true) {
+				set__reason(__reason => __reason + ' ' + document.getElementById("8-1").value )
+				reason_in = reason_in + ' ' + document.getElementById("8-1").innerText
+			}
+			
+			if (state.points_82 === true) {
+				set__reason(__reason => __reason + ' ' + document.getElementById("8-2").value )
+				reason_in = reason_in + ' ' + document.getElementById("8-2").innerText
+			}
+			
+			if (state.points_83 === true) {
+				set__reason(__reason => __reason + ' ' + document.getElementById("8-3").value )
+				reason_in = reason_in + ' ' + document.getElementById("8-3").innerText
+			}
+			
+			if (state.points_84 === true) {
+				set__reason(__reason => __reason + ' ' + document.getElementById("8-4").value )
+				reason_in = reason_in + ' ' + document.getElementById("8-4").innerText
+			}
+			
+			if (state.points_85 === true) {
+				set__reason(__reason => __reason + ' ' + document.getElementById("8-5").value )
+				reason_in = reason_in + ' ' + document.getElementById("8-5").innerText
+			}
+			
+			console.log("__reason : ", __reason);
+			//firebase에 데이터 올리는 부분
+			const doc_user = db.collection("user").doc(s_name);	
 			doc_user.get().then((doc) => {
 				if(doc.exists){
 					console.log("데이터 존재1 : ", doc.data());
@@ -123,7 +216,28 @@ function Give_points (props) {
 						console.log("존재하는 계정입니다!");
 						var before_points = parseInt(doc.data().points)
 						var after_points = parseInt(doc.data().points) + parseInt(s_points)
-						var text = s_date + ' ' + s_points + ' ' + __group + ' ' + __name
+						var belong = ''
+						var rank = ''
+						if (__group === '0') {
+							belong="직할중대";
+						} else if (__group === '1') {
+							belong="1대대";
+						} else if (__group === '2') {
+							belong="2대대";
+						} else if (__group === '3') {
+							belong="3대대";
+						}
+						
+						if (__class === '0') {
+							rank="간부"
+						} else if (__class === '1') {
+							rank="분대장"
+						} else if (__class === '2') {
+							rank="병사"
+						}
+						
+						//상점 데이터에 업데이트하는 부분
+						var text = s_date + ' +' + s_points + ' / ' + reason_in + ' / ' +  belong + ' ' + rank + ' '+  __name + ' '
 						doc_user.update({
 							points: after_points
 						})
@@ -132,17 +246,7 @@ function Give_points (props) {
 						});
 						set_submitError('상점 제출에 성공했습니다!');
 						
-						//doc_user.collection('recents').doc('contents').get().then((
-						//.catch((error) => {
-						//	console.log("error 2 !!! : ", error);
-						//});	
-						// Add a new document with a generated id.
-						
-						//let today = new Date();   
-						//const temp = today.toLocaleTimeString()
-						//doc_user.collection('recents').doc('contents').update({
-						//	 : text
-						//})
+						//recents 데이터에 update하는 부분
 						const temp = doc.data().recents
 						temp.push(text)
 						doc_user.update({
@@ -162,6 +266,13 @@ function Give_points (props) {
 		
 	
 	};
+	
+	useEffect(() => {
+		console.log("I'm start...");
+		return () => {
+		  console.log("I'm dying...");
+		};
+	}, [__class, __group, __name, __reason]); //흠.. 신기하네..
 	
 	
 	console.log("points_11 : ", points_11);
@@ -213,7 +324,7 @@ function Give_points (props) {
 									control={<Checkbox checked={state.points_11} color="primary" onChange={handleChange} name="points_11" />}
 									    />
 										<div className="points_text">
-											<p> 특이사항 및 상황발생시 상황조치 우수 (+5) </p>
+											<p id="1-1"> 특이사항 및 상황발생시 상황조치 우수 (+5) </p>
 										</div>
 									</div>
 								  
@@ -231,7 +342,7 @@ function Give_points (props) {
 									control={<Checkbox checked={state.points_21} color="primary" onChange={handleChange} name="points_21" />}
 									    />
 										<div className="points_text">
-											<p> 모범적인 교육 태도 (+3) </p>
+											<p id="2-1"> 모범적인 교육 태도 (+3) </p>
 										</div>
 									</div>
 								  
@@ -249,7 +360,7 @@ function Give_points (props) {
 									control={<Checkbox checked={state.points_31} color="primary" onChange={handleChange} name="points_31" />}
 									    />
 										<div className="points_text">
-											<p> 일과 이후 (17:30) 및 휴일 부대를 위한 임무수행 (+3) </p>
+											<p id="3-1"> 일과 이후 (17:30) 및 휴일 부대를 위한 임무수행 (+3) </p>
 										</div>
 									</div>
 								  
@@ -261,7 +372,7 @@ function Give_points (props) {
 									control={<Checkbox checked={state.points_32} color="primary" onChange={handleChange} name="points_32" />}
 									    />
 										<div className="points_text">
-											<p> 주말 취사지원 (1일당 +6) </p>
+											<p id="3-2"> 주말 취사지원 (1일당 +6) </p>
 										</div>
 									</div>
 								  
@@ -273,7 +384,7 @@ function Give_points (props) {
 									control={<Checkbox checked={state.points_33} color="primary" onChange={handleChange} name="points_33" />}
 									    />
 										<div className="points_text">
-											<p> 취사병 지원(1~10일 +10, 10~20일 +20, 20~30일 +30) (+3) </p>
+											<p id="3-3"> 취사병 지원(1~10일 +10, 10~20일 +20, 20~30일 +30) (+3) </p>
 										</div>
 									</div>
 								  
@@ -285,7 +396,7 @@ function Give_points (props) {
 									control={<Checkbox checked={state.points_34} color="primary" onChange={handleChange} name="points_34" />}
 									    />
 										<div className="points_text">
-											<p> 군인 기본자세(보행, 인솔, 경례 등) 우수 (+1) </p>
+											<p id="3-4"> 군인 기본자세(보행, 인솔, 경례 등) 우수 (+1) </p>
 										</div>
 									</div>
 								  
@@ -303,7 +414,7 @@ function Give_points (props) {
 									control={<Checkbox checked={state.points_41} color="primary" onChange={handleChange} name="points41" />}
 									    />
 										<div className="points_text">
-											<p> 개인 관물대 정리정돈 / 생활관 청소 우수 (+1) </p>
+											<p id="4-1"> 개인 관물대 정리정돈 / 생활관 청소 우수 (+1) </p>
 										</div>
 									</div>
 								  
@@ -315,7 +426,7 @@ function Give_points (props) {
 									control={<Checkbox checked={state.points_42} color="primary" onChange={handleChange} name="points42" />}
 									    />
 										<div className="points_text">
-											<p> 병영생활지도 결과 우수 생활관 (+2) </p>
+											<p id="4-2"> 병영생활지도 결과 우수 생활관 (+2) </p>
 										</div>
 									</div>
 								  
@@ -333,7 +444,7 @@ function Give_points (props) {
 									control={<Checkbox checked={state.points_51} color="primary" onChange={handleChange} name="points_51" />}
 									    />
 										<div className="points_text">
-											<p> 개인 장구류 / 보급품 손질 및 관리 우수 (+1 ~ +5) </p>
+											<p id="5-1"> 개인 장구류 / 보급품 손질 및 관리 우수 (+1 ~ +5) </p>
 										</div>
 									</div>
 								  
@@ -351,7 +462,7 @@ function Give_points (props) {
 									control={<Checkbox checked={state.points_61} color="primary" onChange={handleChange} name="points_61" />}
 									    />
 										<div className="points_text">
-											<p> 헌혈 (+10) </p>
+											<p id="6-1"> 헌혈 (+10) </p>
 										</div>
 									</div>
 								  
@@ -363,7 +474,7 @@ function Give_points (props) {
 									control={<Checkbox checked={state.points_62} color="primary" onChange={handleChange} name="points_62" />}
 									    />
 										<div className="points_text">
-											<p> 헌혈증 기부 (+10) </p>
+											<p id="6-2"> 헌혈증 기부 (+10) </p>
 										</div>
 									</div>
 								  
@@ -381,7 +492,7 @@ function Give_points (props) {
 									control={<Checkbox checked={state.points_71} color="primary" onChange={handleChange} name="points_71" />}
 									    />
 										<div className="points_text">
-											<p> 종교행사(주말, 평일) 참석 </p>
+											<p id="7-1"> 종교행사(주말, 평일) 참석 </p>
 										</div>
 									</div>
 								  
@@ -399,7 +510,7 @@ function Give_points (props) {
 									control={<Checkbox checked={state.points_81} color="primary" onChange={handleChange} name="points_81" />}
 									    />
 										<div className="points_text">
-											<p> 분대장의 지휘권 보장 (+3 이내) </p>
+											<p id="8-1"> 분대장의 지휘권 보장 (+3 이내) </p>
 										</div>
 									</div>
 								  
@@ -413,7 +524,7 @@ function Give_points (props) {
 									control={<Checkbox checked={state.points_82} color="primary" onChange={handleChange} name="points_82" />}
 									    />
 										<div className="points_text">
-											<p> 하사 이상 간부의 지휘권 보장 (+3 이내) </p>
+											<p id="8-2"> 하사 이상 간부의 지휘권 보장 (+3 이내) </p>
 										</div>
 									</div>
 								  
@@ -427,7 +538,7 @@ function Give_points (props) {
 									control={<Checkbox checked={state.points_83} color="primary" onChange={handleChange} name="points_83" />}
 									    />
 										<div className="points_text">
-											<p> 중대장/행정보급관의 지휘권 보장 (+5 이내) </p>
+											<p id="8-3"> 중대장/행정보급관의 지휘권 보장 (+5 이내) </p>
 										</div>
 									</div>
 								  
@@ -441,7 +552,7 @@ function Give_points (props) {
 									control={<Checkbox checked={state.points_84} color="primary" onChange={handleChange} name="points_84" />}
 									    />
 										<div className="points_text">
-											<p> 대대장/주임원사의 지휘권 보장 (+7 이내) </p>
+											<p id="8-4"> 대대장/주임원사의 지휘권 보장 (+7 이내) </p>
 										</div>
 									</div>
 								  
@@ -455,7 +566,7 @@ function Give_points (props) {
 									control={<Checkbox checked={state.points_85} color="primary" onChange={handleChange} name="points_85" />}
 									    />
 										<div className="points_text">
-											<p> 여단장/주임원사의 지휘권 보장 (+10 이내) </p>
+											<p id="8-5"> 여단장/주임원사의 지휘권 보장 (+10 이내) </p>
 										</div>
 									</div>
 								  
